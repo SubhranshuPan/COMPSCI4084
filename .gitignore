@@ -1,0 +1,17 @@
+# Large data files (exceed GitHub's 100 MB limit)
+*.tar.gz
+WEEK2/tAPP_Lab03/Lab3_sol/pytorch/data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# OS files
+.DS_Store
+Thumbs.db
