@@ -1,0 +1,23 @@
+{
+  // Terminal goes to the BOTTOM panel (hidden), NOT the editor area
+  "terminal.integrated.defaultLocation": "panel",
+
+  // Auto-save so input.txt is always saved before running
+  "files.autoSave": "onFocusChange",
+
+  // Java settings
+  "java.debug.settings.console": "integratedTerminal",
+  "java.project.sourcePaths": [""],
+
+  // Editor settings for Java
+  "editor.formatOnSave": true,
+  "editor.fontSize": 14,
+  "editor.tabSize": 4,
+  "editor.wordWrap": "on",
+
+  // Hide clutter from file explorer
+  "files.exclude": {
+    "**/*.class": true,
+    ".vscode": true
+  }
+}

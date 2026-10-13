@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "▶ Compile & Run (with input/output files)",
+      "type": "shell",
+      "command": "cd ${workspaceFolder} && FILE=\"${fileBasename}\"; if [[ \"$FILE\" != *.java ]]; then FILE=$(ls -t *.java 2>/dev/null | head -1); fi; javac \"$FILE\" && java \"${FILE%.java}\" < input.txt > output.txt 2>&1",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "close": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "▶ Compile & Run (interactive terminal)",
+      "type": "shell",
+      "command": "cd ${fileDirname} && javac ${fileBasename} && java ${fileBasenameNoExtension}",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      },
+      "problemMatcher": ["$javac"]
+    },
+    {
+      "label": "🧹 Clean .class files",
+      "type": "shell",
+      "command": "find ${workspaceFolder} -name '*.class' -delete && echo '✅ All .class files removed'",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

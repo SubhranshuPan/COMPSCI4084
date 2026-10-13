@@ -1,0 +1,5 @@
+=== Java Input/Output Test ===
+
+Enter your name: Enter your age: 
+✅ Hello Abhishek! You are 18 years old.
+🎉 Your setup is working perfectly!
