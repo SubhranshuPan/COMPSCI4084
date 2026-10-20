@@ -15,5 +15,8 @@ public class JavaBasics {
         for (String fruit : fruits) {
             System.out.println(fruit);
         }
+
+        double b = -4 + 1/2 + 2*-3 + 5.0;
+        System.out.println(b);
     }
 }
