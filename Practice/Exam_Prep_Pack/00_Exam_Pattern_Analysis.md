@@ -1,6 +1,39 @@
 # 00 - Exam Pattern Analysis (2021 - 2024 + Practice Task 3)
 
-*What the Python lab exams reward, how they have changed, and what to expect in next week's mock. Read this first (10 minutes), then follow the study plan in section 8.*
+*What the Python lab exams reward, how they have changed, and what to expect in next week's assessment. Read this first (10 minutes), then follow the study plan in section 8. **Version 2: now built around the instructor's official checklist (section 0).***
+
+## 0. The instructor's official checklist (read this before anything else)
+
+Your instructor says the practical assessment (15% of the course) covers *the same main areas as the final-exam Python question*, and that you should **practise the individual operations and understand each line - not memorise one complete solution**. These are the exact bullets, and where the pack covers each:
+
+| Area | Checklist bullet | Where to practise |
+|---|---|---|
+| Pandas | loading CSV files | T5, T9 card |
+| Pandas | checking the shape of a DataFrame | T5, T9 |
+| Pandas | identifying and removing duplicates | T5, T9 |
+| Pandas | **merging DataFrames using a common column** | T5 (new section), T9, Cheat Sheet B |
+| Pandas | selecting and filtering data | T5, T9 |
+| Pandas | saving a DataFrame to a CSV file | T5, T9 |
+| Matplotlib | scatter, line, bar and **box** plots | T6 (box plot is a new section), T9, Cheat Sheet C |
+| Matplotlib | titles and axis labels | T6, every template |
+| SQLite | create / connect to a database | T4, T9 |
+| SQLite | **store a DataFrame in a table** (`to_sql`) | T4 (new section), Cheat Sheet D |
+| SQLite | SELECT, WHERE, ORDER BY and **UPDATE** | T4 (UPDATE is a new worked section) |
+| SQLite | parameterised queries with `?` | T4 |
+| SQLite | committing changes | T4 |
+| SQLite | **retrieve results and export them to CSV** | T4 (new section), Cheat Sheet D |
+| PyTorch | **random seed before generating data** | T7 (new regression section), Cheat Sheet F |
+| PyTorch | `nn.Module`, Linear + ReLU | T7 |
+| PyTorch | **synthetic data `y = X @ w + b + noise`** (continuous target) | T7 (new), Cheat Sheet F |
+| PyTorch | shapes of X and y | T7 (new), Cheat Sheet F |
+| PyTorch | choose the loss function and optimiser | T7 |
+| PyTorch | training loop; record and plot the loss | T7, P1, Cheat Sheet F |
+
+**What this changes (compared with version 1 of this pack):**
+1. The PyTorch task is a **regression** task (continuous target, `MSELoss`, **no sigmoid** on the output). The 2024 paper's sigmoid network is still good practice but is not the template to expect.
+2. **Merge, box plot, UPDATE, `to_sql` and CSV export** are now explicitly on the list; they were thin or missing before.
+3. Practise **small operations**, each from a blank line. Do not rely on retyping a whole paper solution.
+4. The seed goes **before** the data *and before* the model is built (weights are random too).
 
 ## 1. The five papers side by side
 
@@ -68,16 +101,19 @@ Database-related marks (create + save + query/display): **7/24, 18/24, 14/24, 15
 
 | Topic | Chance it appears | Where to revise |
 |---|---|---|
-| SQLite create / insert / SELECT / GROUP BY / `strftime` | ~95% | T4, P1 |
-| pandas load + clean (fillna, dates, derived column) | ~90% | T5, P1 |
-| matplotlib bar / line / histogram | ~85% | T6 |
-| "No duplicates" (DB or DataFrame) | ~70% | T4, T5 |
-| CSV file handling, append vs create, `q` to quit loop | ~50% | T3 |
-| PyTorch network (or its CSV replacement) | ~50% each | T7 / T3 + T5 + T6 |
-| numpy summary statistics (mean/min/max) saved to text file | ~50% | T3, T5 |
-| OOP (class, `__init__`, `__str__`) | ~20% (Java side carries OOP) | T2 |
-| tkinter | ~2% (removed) | T8, skip unless time |
+| pandas: load, shape, duplicates, **merge**, filter, save to CSV | ~95% (all on the instructor's list) | T5, T9 |
+| matplotlib: scatter, line, bar, **box**, with titles/labels | ~95% (on the list) | T6, T9 |
+| SQLite: connect, `to_sql`, SELECT/WHERE/ORDER BY, **UPDATE**, `?`, commit, **export to CSV** | ~95% (on the list) | T4, T9 |
+| PyTorch **regression**: seed, `y = X @ w + b + noise`, shapes, Linear+ReLU, MSE, loop, plot loss | ~90% (on the list) | T7, T9, Cheat Sheet F |
+| `fillna`, `to_datetime`, `strftime` year filtering (2024 style) | ~50% | T5, P1 |
+| "No duplicates" in a database (`UNIQUE`, `INSERT OR IGNORE`) | ~50% | T4, P1 |
+| CSV file handling, append vs create, `q` to quit loop | ~30% | T3 |
+| sigmoid / BCELoss classification network (2024 style) | ~20% | T7, P1 |
+| OOP (class, `__init__`, `__str__`) | ~15% (Java side carries OOP) | T2 |
+| tkinter | ~2% (removed) | T8, skip |
 | Console menus, functions, validation loops | glue in everything | T1 |
+
+*Probabilities are my judgement, now weighted heavily towards the instructor's checklist: anything on that list should be treated as certain to be examined.*
 
 ## 5. The ten commandments for exam day
 
@@ -120,18 +156,21 @@ Database-related marks (create + save + query/display): **7/24, 18/24, 14/24, 15
 
 If a task is stuck for 10 minutes, write a comment saying what you would do, leave a stub that runs, and **move on**. Come back with spare time.
 
-## 8. Your study plan (use the days you have; the order matters)
+## 8. Your study plan (version 2: operations first, then whole programs)
+
+**Principle (from your instructor): practise individual operations, understand each line, do not memorise one solution.**
 
 | Order | Study | Documents | Practise |
 |---|---|---|---|
-| 1 | The 2024 paper, read + type the solution **from understanding** | P1 | retype `2024_sales_sqlite_pytorch_solution.py` section by section without looking |
-| 2 | SQLite | T4 | write create/insert/query from memory; do the 2022 + 2023 console tasks |
-| 3 | pandas + dates + missing data | T5 | clean `sales_data.csv` in 10 minutes |
-| 4 | matplotlib | T6 | draw bar + line + histogram in 5 minutes |
-| 5 | Files, CSV, exceptions | T3 | the height logger, solo |
-| 6 | PyTorch | T7 | write `SimpleNN` + loop without notes |
-| 7 | Mock A (timed), then Mock B | Mock_Exams/ | mark yourself with the marking schemes |
-| 8 | Python core + OOP gaps | T1, T2 | only the parts you got wrong |
-| last | Print + hand-write the Quick-Reference boxes | Exam_Day_Cheat_Sheet | the sheet you carry in |
+| 1 | **The operation cards**: 27 small operations, one per checklist bullet | T9 + `Solutions_py/practical_operation_drills.py` | each day: cover the code, write 5 cards from memory, run them, tick the tracker |
+| 2 | pandas (merge, duplicates, filter, save) | T5 | merge two small CSVs of your own invention; compare `shape` before/after |
+| 3 | matplotlib (scatter, line, bar, box) | T6 | 4 plots from one DataFrame, each with title + labels, 10 minutes |
+| 4 | SQLite (to_sql, SELECT/UPDATE with `?`, export CSV) | T4 | create DB -> store DataFrame -> update -> export, from a blank file |
+| 5 | PyTorch regression | T7 + `Solutions_py/pytorch_regression_practical.py` | seed -> data -> model -> loop -> plot, change one thing at a time (N, F, lr, epochs) |
+| 6 | **Mock C** (written to the checklist), timed | Mock_Exams/MockC | mark yourself with the scheme |
+| 7 | Mock A and B (more whole-program practice) | Mock_Exams | optional but good |
+| 8 | The 2024 paper explained | P1 | **read for understanding** (what and why of each line); do NOT try to memorise the file |
+| 9 | Python core + OOP + files/CSV gaps | T1, T2, T3 | only what you got wrong |
+| last | Hand-write the Quick-Reference boxes; print the cheat sheet | Exam_Day_Cheat_Sheet (v2) | the sheet you carry in |
 
-**Printing advice:** print only: `Exam_Day_Cheat_Sheet`, P1, T4, T5, T6 (and T7/T3 if you can). Hand-write the "Quick-reference box" from each topic on one A4 page; handwritten notes are explicitly allowed, and the act of writing them is itself revision.
+**Printing advice:** see START_HERE (version 2) for the exact list.

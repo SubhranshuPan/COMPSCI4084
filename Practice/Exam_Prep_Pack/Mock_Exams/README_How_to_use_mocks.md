@@ -87,3 +87,35 @@ related topic documents first, then retry that task only.
   `print(df.dtypes)`, `SELECT * FROM table LIMIT 5` solve most mysteries.
 - Never leave the exam with a file that does not run: comment out the
   broken part with `#` rather than submit a crash.
+
+---
+
+## Mock C - practical-assessment style (added later)
+
+*Tests the instructor's official checklist exactly: pandas (load, shape,
+duplicates, merge, filter, save), matplotlib (scatter, line, bar, box),
+SQLite (to_sql, `?` queries, UPDATE, commit, export to CSV) and PyTorch
+regression (seed, `y = X @ w + b + noise`, Linear + ReLU, loss curve).
+40 marks.*
+
+| File | Use |
+|------|-----|
+| `MockC/MockC_Paper.md` | The paper (print this). |
+| `MockC/customers.csv`, `MockC/orders.csv` | The two data files (share `CustomerID`). |
+| `MockC/MockC_solution.py` | Model solution; open only after you finish. |
+| `MockC/MockC_marking_scheme_and_walkthrough.md` | Marks PER OPERATION, the checklist-to-topic-document table, traps, answers. |
+
+- **Setup:** as for A and B: a fresh folder, copy only the two CSV files,
+  needs `pandas`, `matplotlib`, `torch`.
+- **Time (120 min):** read 5, Section 1 pandas 30, Section 2 plots 20,
+  Section 3 SQLite 30, Section 4 PyTorch 25, final run and tidy 10.
+- **Marking:** the scheme gives each small operation its own mark, so
+  mark line by line. Then use its first table (checklist bullet ->
+  topic document) to see which topic document to re-read for each lost
+  mark. Do not memorise the solution; retype single operations from
+  memory (one merge, one `?` query, one training loop).
+- **Idempotence:** run twice; every number must be identical (the table
+  is rebuilt each run).
+- **If stuck:** the sections are independent except that 2-3 use the
+  merged DataFrame from Section 1 and Section 4 stands alone - do Section 4
+  first if pandas is blocking you.

@@ -1,48 +1,53 @@
-# START HERE - Python exam preparation pack
+# START HERE - Python assessment preparation pack (version 2)
 
-Everything is in `Practice/Exam_Prep_Pack/`. Printable PDFs are in `Exam_Prep_Pack/PDF_Print/` (one per document, A4, black & white friendly). Runnable, tested solutions are in `Practice/Solutions_py/`.
+Everything is in `Practice/Exam_Prep_Pack/`. Printable PDFs are in `Exam_Prep_Pack/PDF_Print/`. Runnable, tested solutions are in `Practice/Solutions_py/`. **What changed since version 1: see `Exam_Prep_Pack/CHANGELOG.md`.**
 
 ## Situation in one paragraph
-Your Python assessment next week is a **mock of the final lab exam**: one `.py` file, uploaded. **tkinter is no longer examined.** The newest paper (2024) is pandas -> matplotlib -> SQLite -> PyTorch, and the practice sheet "Task 3" shows PyTorch possibly being **replaced by CSV + pandas + numpy + matplotlib**. SQLite and "do the right thing when data is wrong" have appeared in every paper since 2021. So prepare for **both** variants of task 3.
+Your instructor says the practical assessment (15% of the course) covers the same areas as the final-exam Python question, and gave an explicit checklist: **pandas** (load, shape, duplicates, merge, filter, save to CSV), **matplotlib** (scatter, line, bar, box plots with titles and labels), **SQLite** (create/connect, store a DataFrame, SELECT/WHERE/ORDER BY/UPDATE, `?` parameters, commit, export results to CSV) and **PyTorch** (seed first, `nn.Module` with Linear + ReLU, synthetic data `y = X @ w + b + noise`, shapes of X and y, loss + optimiser, training loop, record and plot the loss). tkinter is gone. The instructor's advice: **practise the individual operations and understand each line; do not memorise one complete solution.** This pack is now organised around exactly that.
 
-## The reading order
+## How to start (in this order)
 
-| # | Document | Why |
+| Step | Do this | File |
 |---|---|---|
-| 1 | `00_Exam_Pattern_Analysis` | how the papers are built and marked; the 10 commandments; study plan |
-| 2 | `Paper_Solutions/P1_2024_Paper_Explained` | the closest thing to your mock, every line explained with analogies |
-| 3 | `Topics/T4_SQLite` | highest-yield topic |
-| 4 | `Topics/T5_Pandas_NumPy`, `T6_Matplotlib` | Task 1 of any data paper |
-| 5 | `Topics/T3_Files_CSV_Exceptions` | the Practice Task 3 solution + file handling |
-| 6 | `Topics/T7_PyTorch_Basics` | the network task |
-| 7 | `Mock_Exams/MockA`, then `MockB` | sit them timed, then self-mark |
-| 8 | `Paper_Solutions/P2-P4` (2021-2023) | extra database/validation practice, console versions |
-| 9 | `Topics/T1_Python_Core`, `T2_OOP_Python` | fill gaps; `T8_Tkinter_Legacy` only if you have spare time |
-| 10 | `Exam_Day_Cheat_Sheet` | **print this; take it into the exam** |
+| 1 | Read the checklist map and the study plan (10 min) | `00_Exam_Pattern_Analysis` sections 0 and 8 |
+| 2 | **Daily 20-minute routine:** pick 5 operation cards, cover the code, write each from memory, run it, tick the tracker | `Topics/T9_Checklist_Operation_Cards` and `Solutions_py/practical_operation_drills.py` (runs all 27 cards: `python practical_operation_drills.py`) |
+| 3 | Learn the weak areas properly, in the order: pandas merge/duplicates -> box plot -> SQLite UPDATE and export -> PyTorch regression | `T5` (3.11-3.15), `T6` (3.11-3.13), `T4` (section 8), `T7` (3.8) |
+| 4 | Sit **Mock C** (written to the checklist) timed, then self-mark | `Mock_Exams/MockC` |
+| 5 | More whole-program practice: Mock A, Mock B | `Mock_Exams/` |
+| 6 | Read P1 (2024 paper) *for understanding only* | `Paper_Solutions/P1` |
+| 7 | Fill gaps in Python basics, files/CSV, OOP | `T1`, `T3`, `T2` |
+| last | Hand-write the quick-reference boxes; print the cheat sheet | `Exam_Day_Cheat_Sheet` (version 2) |
 
-## What to print (suggested, about 35 pages)
-`Exam_Day_Cheat_Sheet` (3-4 pp), `P1` (~9 pp), `T4`, `T5`, `T6` (the rest as you wish). **Also hand-write the "Quick-reference box" from each topic onto your own notes sheet** - it is allowed and it is the best revision there is.
+## What to print
+**Core (take into the exam):** `Exam_Day_Cheat_Sheet` v2 (4 pp) + `T9_Checklist_Operation_Cards` (17 pp). If you already printed v1 of T4, T5, T6, T7: reprint only the new pages listed in `CHANGELOG.md` (about 33 pp), or reprint the whole documents.
+**For study, not for the exam:** `00_Exam_Pattern_Analysis`, the three Mock papers (then the marking schemes afterwards).
+**Skip:** `T8_Tkinter_Legacy`, `P2-P4` (old GUI papers), `T1`/`T2` unless weak.
+**Also hand-write** one page of your own notes (allowed): copy the quick-reference box of each topic in your own words.
 
 ## Folder map
 ```text
 Practice/
   START_HERE.md                    <- this file
-  Solutions_py/                    <- all tested .py solutions
+  Solutions_py/                    <- all tested .py solutions + 27-card drills file
   Exam_Prep_Pack/
-    00_Exam_Pattern_Analysis.md
-    Exam_Day_Cheat_Sheet.md
+    CHANGELOG.md                   <- what changed in version 2, which pages to reprint
+    00_Exam_Pattern_Analysis.md    <- checklist map, exam patterns, study plan
+    Exam_Day_Cheat_Sheet.md        <- v2, one tested script covering every checklist item
     Paper_Solutions/  P0 index, P1 2024, P2 2021, P3 2022, P4 2023
     Topics/           T1 core, T2 OOP, T3 files/CSV, T4 SQLite, T5 pandas/numpy,
-                      T6 matplotlib, T7 PyTorch, T8 tkinter (legacy)
-    Mock_Exams/       README, MockA (2024-style), MockB (Practice-Task-3-style)
-    PDF_Print/        printable PDFs of every .md above
+                      T6 matplotlib, T7 PyTorch, T8 tkinter (legacy),
+                      T9 operation cards (the checklist, one card per operation)
+    Mock_Exams/       README, MockA (2024 style), MockB (Practice Task 3 style),
+                      MockC (the instructor's checklist)
+    PDF_Print/        printable PDF of every .md above
     _tools/build_pdfs.py   rebuilds the PDFs (needs: pip install markdown pygments)
   (your original uploaded exam papers are untouched)
 ```
 
 ## Exam environment checklist
-- Know whether the exam machine has `pandas`, `matplotlib`, `torch` (open a terminal and `python -c "import pandas, matplotlib, torch"` in the first minute; if torch is missing, tell the invigilator).
-- File name `your_name_python_task.py`; data files in the same folder as the script.
-- Run the whole file from a clean start before uploading.
+- First minute: `python -c "import pandas, matplotlib, torch"`. If something is missing, tell the invigilator.
+- **Matplotlib version trap:** name box-plot boxes with `plt.xticks(...)` (works everywhere); `labels=` and `tick_labels=` depend on the version.
+- Put the seed on the first line of the PyTorch part (before the data and before the model).
+- Run the whole file from a clean start before uploading; check the file name the paper asks for.
 
-*When you upload your own coursework code, tell me which parts and I will fold your own idioms into the topic documents.*
+*When you upload your own coursework code, tell me which parts and I will fold your own idioms into the documents.*

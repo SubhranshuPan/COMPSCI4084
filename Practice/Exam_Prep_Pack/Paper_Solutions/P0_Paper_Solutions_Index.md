@@ -24,7 +24,7 @@
 2. Write the code from your plan. Run it.
 3. Compare with the solution; for each difference ask "is mine wrong, or just different?"
 4. Read the line-by-line explanation for every line you could not write alone.
-5. Retype the solution the next day from the explanations only.
+5. Next day, write ONE operation from it (e.g. just the SQLite part) from a blank line. Your instructor's advice: practise the *individual operations*; do not try to memorise a whole solution.
 
 **Findings that go beyond the official solution** (all tested; explained in P1):
 - the official 2024 solution under-reports 2023 sales by £50 (blank Price filled with 0), plots all years instead of 2023, and does not prevent duplicates (re-running doubles the DB);

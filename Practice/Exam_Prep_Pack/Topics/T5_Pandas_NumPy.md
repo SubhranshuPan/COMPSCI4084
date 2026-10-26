@@ -30,7 +30,24 @@ The 2022 and 2023 papers had no pandas; 2024 is the pattern to expect.
 dates are text like `01/01/2023` (dd/mm/yyyy); years 2022 (29 rows), 2023
 (100), 2024 (22); 6 blank `Product`, 1 blank `Price`, 3 blank `Total`; no
 blank `Date` or `Quantity`; every non-blank Total already equals
-Quantity x Price.
+Quantity x Price. **CORRECTION (added later):** the file also holds **6 exact
+duplicate rows** (the 04/04/2022 to 10/04/2022 sales appear twice; rows 144-150
+repeat rows 122-128). The 2024 Task 1a does not ask you to remove them, but
+Task 2a says "ensure no duplicate entries" - see section 3.12.
+
+### 1.1 The instructor's checklist - Pandas bullets covered here
+
+> **Pandas** (practical-assessment checklist from the course instructor)
+> - loading CSV files -> template B
+> - checking the shape of a DataFrame -> **3.11**
+> - identifying and removing duplicates -> **3.12** (and template D)
+> - merging DataFrames using a common column -> **3.13**
+> - selecting and filtering data -> template C and **3.14**
+> - saving a DataFrame to a CSV file -> template H and **3.15**
+
+The instructor says: do not memorise one complete solution; practise the
+*individual operations* and know what each line does. Sections 3.11-3.15 are
+therefore small, independent recipes: each starts from a fresh DataFrame.
 
 <div class="pb"></div>
 
@@ -241,6 +258,219 @@ df['Date'].dt.strftime('%Y-%m-%d')             # datetime -> 'YYYY-MM-DD' text
                                                # (what SQLite wants, see T4)
 ```
 
+### 3.11 Check the shape (do it before AND after every step)
+
+*Analogy:* counting the books on the shelf before and after you tidy - if the
+number is not what you expect, a step did something you did not intend.
+
+```python
+df = pd.read_csv('sales_data.csv')
+print(df.shape)                      # (151, 5)  = (rows, columns)
+print(len(df))                       # 151       = rows only (len = rows)
+rows, cols = df.shape                # unpack the pair into two names
+print(f'{rows} rows x {cols} columns')
+print(df.size)                       # 755 = rows x columns = all cells
+df.info()                            # columns, non-null counts, dtypes
+
+n_before = len(df)
+clean = df.drop_duplicates()         # any step that can change row count
+print('removed', n_before - len(clean), 'rows')   # removed 6 rows
+print(df.shape, '->', clean.shape)   # (151, 5) -> (145, 5)
+```
+
+- `df.shape[0]` = rows, `df.shape[1]` = columns. `shape` has NO brackets
+  (it is a value, not a function). `df.info()` prints by itself.
+- `df.info()` "Non-Null Count" below the row count = blanks in that column.
+
+### 3.12 Identify and remove duplicates
+
+*Analogy:* a class register where one student signed twice. First *find* the
+double signatures, *look* at them, then rub one out.
+
+```python
+df = pd.read_csv('sales_data.csv')
+print(df.duplicated().sum())            # 6   = how many rows repeat an
+                                        #       earlier row (True = repeat)
+print(df[df.duplicated(keep=False)].sort_values('Date'))   # SEE both copies
+print(df[df.duplicated()].index.tolist())   # row numbers of repeats
+
+before = df.shape                       # (151, 5)
+dedup = df.drop_duplicates()            # keeps the FIRST copy of each row
+dedup = dedup.reset_index(drop=True)    # renumber 0,1,2... (drop old numbers)
+print(before, '->', dedup.shape)        # (151, 5) -> (145, 5)
+
+# judge "duplicate" by some columns only:
+same_day_product = df.duplicated(subset=['Date', 'Product']).sum()
+nodup = df.drop_duplicates(subset=['Date', 'Product'], keep='last')
+print(same_day_product, nodup.shape)    # 6 (145, 5)
+```
+
+| Call | What it does |
+|---|---|
+| `df.duplicated()` | True/False per row: True if an EARLIER row is identical |
+| `.duplicated().sum()` | how many repeat rows (True counts as 1) |
+| `df[df.duplicated(keep=False)]` | show ALL copies (original + repeats) so you can inspect them |
+| `drop_duplicates()` | delete repeats, keep the first (`keep='first'`, default) |
+| `drop_duplicates(keep='last')` | keep the last copy instead |
+| `drop_duplicates(keep=False)` | delete EVERY copy, including the original (137 rows left!) |
+| `subset=['A', 'B']` | only compare these columns when deciding "same" |
+| `reset_index(drop=True)` | tidy row numbers after rows vanish (`drop=True`: do not keep the old numbers as a column) |
+
+**TIP:** do not use `inplace=True`; write `df = df.drop_duplicates()`.
+**NOTE:** the exam text "ensure no duplicate entries are added" (Task 2a)
+also needs de-duplication in the database (T4); in pandas do it first.
+
+### 3.13 Merge two DataFrames on a common column
+
+*Analogy:* two guest lists, one with names, one with meal choices; the ticket
+number on both lists is the *common column*. Merging = stapling each name to
+the meal with the same ticket number.
+
+```python
+students = pd.DataFrame({'ID': [1, 2, 3, 4],
+                         'Name': ['Amy', 'Ben', 'Cat', 'Dev']})
+scores = pd.DataFrame({'ID': [1, 2, 5],
+                       'Score': [70, 80, 60]})
+students.to_csv('students.csv', index=False)    # pretend they are two files
+scores.to_csv('scores.csv', index=False)
+
+a = pd.read_csv('students.csv')
+b = pd.read_csv('scores.csv')
+print(a.shape, b.shape)                         # (4, 2) (3, 2)
+
+both = pd.merge(a, b, on='ID')                  # same as a.merge(b, on='ID')
+print(both)                                     # only IDs 1 and 2 survive
+print(a.shape, b.shape, '->', both.shape)       # (4, 2) (3, 2) -> (2, 3)
+
+left = a.merge(b, on='ID', how='left')          # keep ALL students
+print(left)                                     # Cat, Dev get Score NaN
+print(left['Score'].isna().sum())               # 2 students with no score
+
+full = a.merge(b, on='ID', how='outer', indicator=True)
+print(full)                       # _merge: both/left_only/right_only
+```
+
+How the four joins differ (`a` = left table, `b` = right table):
+
+| `how=` | Rows kept | Rows in example |
+|---|---|---|
+| `'inner'` (default) | ID found in BOTH tables | 2 (IDs 1, 2) |
+| `'left'` | every row of `a`; blanks (NaN) where `b` has no match | 4 |
+| `'right'` | every row of `b`; blanks where `a` has no match | 3 |
+| `'outer'` | every row of both; blanks wherever one side is missing | 5 |
+
+`indicator=True` adds a `_merge` column that says where each row came from
+- the quickest way to *see* unmatched rows.
+
+**Different column names, repeated names, repeated keys:**
+
+```python
+scores2 = b.rename(columns={'ID': 'StudentID'})
+m1 = a.merge(scores2, left_on='ID', right_on='StudentID')   # keys named
+print(m1.columns.tolist())      # ['ID', 'Name', 'StudentID', 'Score'] - both
+                                # both keys stay; drop one if unwanted
+
+t1 = pd.DataFrame({'ID': [1, 2], 'Mark': [1, 2]})
+t2 = pd.DataFrame({'ID': [1, 2], 'Mark': [9, 8]})
+print(t1.merge(t2, on='ID', suffixes=('_test', '_exam')))  # Mark_test..
+print(t1.merge(t2, on='ID').columns.tolist())   # default: Mark_x, Mark_y
+
+# DUPLICATE KEYS multiply rows: 3 rows x 2 matching rows = 6
+x = pd.DataFrame({'k': [1, 1, 1], 'a': [1, 2, 3]})
+y = pd.DataFrame({'k': [1, 1], 'b': [7, 8]})
+print(x.merge(y, on='k').shape)                 # (6, 3)  <- rows blew up
+print(a['ID'].is_unique, b['ID'].is_unique)     # True True: safe 1-to-1 merge
+```
+
+Real-data version (add a supplier to every sale; keep all 151 sales):
+
+```python
+sales = pd.read_csv('sales_data.csv')
+info = pd.DataFrame({'Product': ['Water', 'Sweets'],
+                     'Supplier': ['AquaCo', 'SweetCo']})
+joined = sales.merge(info, on='Product', how='left')
+print(sales.shape, '->', joined.shape)          # (151, 5) -> (151, 6)
+print(joined['Supplier'].isna().sum())          # 90 sales of other products
+```
+
+- **Rule of thumb:** after a *left* merge the row count must equal the left
+  table's (if not, the right table has duplicate keys). An *inner* merge can
+  only lose rows. Always print `shape` before and after.
+- Merge keys must have the SAME type (int with int); `df['ID'].astype(int)`
+  to fix.
+
+### 3.14 Selecting and filtering - more tools
+
+```python
+df = pd.read_csv('sales_data.csv')
+one = df['Total']                                # one column  -> Series
+many = df[['Product', 'Total']]                  # list of names -> DataFrame
+row5 = df.iloc[5]                                # row by POSITION
+sub = df.loc[df['Quantity'] > 8, ['Product', 'Total']]   # rows AND columns
+print(sub.head(2))
+
+# filters (each condition in its own brackets; & = and, | = or, ~ = not)
+a = df[(df['Product'] == 'Water') | (df['Quantity'] > 8)]      # 61 rows
+b = df[~df['Product'].isin(['Water'])]                         # not Water
+c = df[df['Quantity'].between(5, 7)]            # 5 <= Quantity <= 7 inclusive
+d = df[df['Product'].str.contains('Orange', na=False)]         # text search
+e = df[df['Product'].str.startswith('S', na=False)]            # starts with S
+f = df[df['Product'].notna()]                   # drop blank products
+print(len(a), len(b), len(c), len(d), len(e), len(f))   # 61 119 58 31 29 145
+
+# query(): the same filter written as a string (read it like English)
+lim = 6
+g = df.query("Quantity > 5 and Product == 'Water'")   # 0 rows
+h = df.query("Product in ['Water', 'Sweets']")             # 61 rows
+k = df.query("Quantity > @lim")                 # @ = use a Python variable
+print(len(g), len(h), len(k))                   # 0 61 90
+
+# sorting and "top n"
+print(df.sort_values('Total', ascending=False).head(3))
+print(df.sort_values(['Product', 'Quantity'],
+                    ascending=[True, False]).head(2))
+print(df.nlargest(2, 'Total')[['Product', 'Total']])   # 2 biggest sales
+print(df.loc[df['Product'] == 'Water', 'Price'].mean())   # 7.5 (one number)
+```
+
+| Tool | Use for |
+|---|---|
+| `df['A']`, `df[['A','B']]` | pick columns (single [] = Series, double [] = DataFrame) |
+| `df.loc[rows, cols]` | by label / by condition; end of a slice INCLUDED |
+| `df.iloc[r, c]` | by position; end EXCLUDED |
+| `df[cond]` | filter rows; combine with `&`, `\|`, `~` and brackets |
+| `isin([..])`, `between(a, b)` | "is one of" / "is in range (inclusive)" |
+| `str.contains('x', na=False)` | text search; `na=False` stops a crash on blanks (older pandas) |
+| `query("A > 5 and B == 'x'")` | filter as a string; `@var` for variables |
+
+### 3.15 Save to CSV - and check by reading it back
+
+```python
+df = pd.read_csv('sales_data.csv')
+big = df[df['Quantity'] > 8]                       # a filtered subset
+
+big.to_csv('big_sales.csv', index=False)           # whole subset, no index
+big[['Date', 'Product']].to_csv('big_two_cols.csv', index=False)  # 2 columns
+df.to_csv('no_header.csv', index=False, header=False)   # data rows only
+df.to_csv('semicolon.csv', index=False, sep=';')   # other separator
+
+back = pd.read_csv('big_sales.csv')                # read it back to verify
+print(back.shape, big.shape)                       # (29, 5) (29, 5)
+print(back.columns.tolist())                       # same column names
+print(back.head(2))
+print(pd.read_csv('big_two_cols.csv').columns.tolist())   # 2 names
+```
+
+- `index=False` - without it pandas writes the row numbers as an extra
+  first column; reading the file back then shows a column `Unnamed: 0`.
+- `header=False` writes no column names; read it back with
+  `pd.read_csv(f, header=None)`, otherwise the first data row becomes the
+  header and you lose a row (150 instead of 151).
+- Saving does NOT change `df`; saving a *filtered* DataFrame saves only those
+  rows. Dates written from a datetime column come back as text - run
+  `to_datetime` again after reading.
+- Verify: `shape` of the re-read file equals `shape` of what you saved.
+
 <div class="pb"></div>
 
 ## 4. Line-by-line walkthrough (Task 1a)
@@ -367,6 +597,27 @@ df['Date'].dt.year     # AttributeError: Can only use .dt accessor with
   mean "text".
 - Never type `df.isna.sum()` - `isna` needs brackets: `isna().sum()`.
 
+### 5.1 Traps for sections 3.11-3.15
+
+| Mistake | What you see | Fix |
+|---|---|---|
+| `df.shape()` | `TypeError: 'tuple' object is not callable` | `shape` has no brackets; `info()` does |
+| `print(df.info())` | table, then a stray `None` | just `df.info()` |
+| `df.drop_duplicates()` without assigning | nothing changes (`df` still 151 rows) | `df = df.drop_duplicates()` |
+| `drop_duplicates(keep=False)` | removes originals too (137 rows left, not 145) | default `keep='first'` |
+| duplicates found with `subset=['Product']` | 145 "duplicates": same product, different sale | choose a subset that identifies a record, or none |
+| row numbers 0,1,2,..,5,7 after dropping rows | gaps in the index | `reset_index(drop=True)` |
+| merge with wrong key name | `KeyError: 'id'` (case matters) | check `list(a.columns)`; use `left_on=`/`right_on=` |
+| merge int column with text column | `ValueError: You are trying to merge on int64 and str columns` | `astype` one side so both match |
+| merge result has far MORE rows than the left table | duplicate keys multiplied rows (3 x 2 = 6) | `df['k'].is_unique`; `drop_duplicates(subset='k')` first, or `validate='one_to_one'` (raises `MergeError` if not) |
+| merge result has far FEWER rows | default is `how='inner'`: unmatched rows vanish | `how='left'` or `how='outer', indicator=True` to see them |
+| both tables have a `Mark` column | result has `Mark_x`, `Mark_y` | `suffixes=('_test', '_exam')` or rename first |
+| `df[df['Product'].str.contains('x')]` | older pandas: `ValueError: Cannot mask with non-boolean array containing NA` | `na=False` |
+| `df.query("Quantity > lim")` | `UndefinedVariableError` | `@lim` |
+| `df.loc[df['Quantity'] > 8, 'Total']` vs `df[df['Quantity'] > 8]['Total']` | both read; only the first is safe for assigning | use `.loc[rows, col]` for assignment |
+| `to_csv` without `index=False` | extra `Unnamed: 0` column on read-back | `index=False` |
+| re-reading a saved file with `header=False` | first row used as header, 1 row lost | `header=None` when reading |
+
 <div class="pb"></div>
 
 ## 6. Anticipated exam questions
@@ -439,6 +690,62 @@ a[a < 10] = 0
 print(a, a.mean())                    # [12  0 30 18 25] 17.0
 ```
 
+### 6.1 Extra questions on the instructor's checklist
+
+**Q10 (2) Load the file, print how many rows and columns it has, and how
+many rows have a missing value.**
+
+```python
+df = pd.read_csv('sales_data.csv')
+rows, cols = df.shape
+print(rows, 'rows,', cols, 'columns')              # 151 rows, 5 columns
+print(df.isna().any(axis=1).sum(), 'rows with a blank')   # 10
+```
+
+**Q11 (3) Find the duplicate rows, display them, remove them, and show the
+shape before and after.**
+
+```python
+df = pd.read_csv('sales_data.csv')
+print(df.duplicated().sum())                       # 6
+print(df[df.duplicated(keep=False)].sort_values('Date'))
+print('before:', df.shape)
+df = df.drop_duplicates().reset_index(drop=True)
+print('after:', df.shape)                          # (145, 5)
+```
+
+**Q12 (4) `students.csv` (ID, Name) and `scores.csv` (ID, Score): merge them
+on ID so that every student appears, even without a score. Report how many
+have no score.**
+
+```python
+a = pd.read_csv('students.csv')
+b = pd.read_csv('scores.csv')
+m = a.merge(b, on='ID', how='left')
+print(m.shape, a.shape)                            # same row count as a
+print(m['Score'].isna().sum(), 'students without a score')
+```
+
+**Q13 (2) What is the difference between an inner and a left merge?**
+Inner keeps only keys present in both tables; left keeps every row of the
+left table and fills the right-hand columns with NaN where there is no match.
+
+**Q14 (3) Select the Water and Sweets sales with Quantity of at least 5,
+keep only Date, Product and Total, sort by Total (largest first) and save to
+`water_sweets.csv`.**
+
+```python
+df = pd.read_csv('sales_data.csv')
+sel = df[df['Product'].isin(['Water', 'Sweets']) & (df['Quantity'] >= 5)]
+sel = sel[['Date', 'Product', 'Total']].sort_values('Total', ascending=False)
+sel.to_csv('water_sweets.csv', index=False)
+print(pd.read_csv('water_sweets.csv').shape)       # (29, 3)
+```
+
+**Q15 (2) Why does `df.merge(other, on='k')` give more rows than `df` has?**
+`other` contains the same key more than once, so each matching row is
+repeated for every match (rows multiply). Check `other['k'].is_unique`.
+
 <div class="pb"></div>
 
 ## 7. Quick-reference box (hand-copy this)
@@ -463,4 +770,16 @@ NUMPY    np.array([..])  .shape  a[1:4]  m[r,c]  m[:,0]  a[a>5]  a[[0,2]]
          a.sum()/mean()/min()/max()   m.sum(axis=0) per column, axis=1 per row
 TRAPS    parse_dates needs dayfirst=True | use & not and
          text column -> 'Unknown', number column -> number
+--- instructor checklist additions ---
+SHAPE    df.shape (no brackets) -> (rows, cols)   len(df)   df.info()
+DUPES    df.duplicated().sum()   df[df.duplicated(keep=False)] (see them)
+         df = df.drop_duplicates(subset=[..], keep='first'|'last'|False)
+         .reset_index(drop=True)   print shape before -> after
+MERGE    a.merge(b, on='ID', how='inner'|'left'|'right'|'outer')
+         left_on='x', right_on='y'  suffixes=('_a','_b')  indicator=True
+         duplicate keys -> rows multiply; left merge keeps len(a)
+FILTER   df[~df['A'].isin([..])]  .between(a,b)  .str.contains('x', na=False)
+         df.query("A > 5 and B == 'x'")   @var   df.nlargest(3,'Total')
+SAVE     df.to_csv('f.csv', index=False)  [['A','B']]  header=False
+         verify: pd.read_csv('f.csv').shape == df.shape
 ```

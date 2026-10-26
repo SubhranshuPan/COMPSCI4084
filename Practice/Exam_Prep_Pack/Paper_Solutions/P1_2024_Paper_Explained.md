@@ -2,6 +2,8 @@
 
 *Sales data -> pandas -> matplotlib -> SQLite -> PyTorch. 40 marks. This is the paper your mock will most closely resemble. Full runnable file: `Solutions_py/2024_sales_sqlite_pytorch_solution.py`. Extra "what if the examiner changes it" drills: `Solutions_py/2024_twist_drills.py`.*
 
+> **Version 2 note (read first).** Your instructor's checklist for the practical assessment asks for a **regression** network (continuous target, `y = X @ w + b + noise`, Linear + ReLU, **no sigmoid**, seed set first) plus pandas merge, box plots, `UPDATE`, `to_sql` and exporting query results to CSV. The 2024 paper below uses a sigmoid network and none of those extras, so use P1 to **understand the pipeline and how marks are earned**, and use T9 / T4-T7 / the Cheat Sheet for the checklist operations. Do not try to memorise this solution: practise its operations one at a time.
+
 ## 1. The paper at a glance
 
 | Task | What you build | Marks | Skills it tests |

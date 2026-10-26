@@ -25,6 +25,27 @@ monthly line chart from a groupby). The marker looks for: **the right
 chart type, a title, labelled axes, and the right numbers on it.** The 2022
 and 2023 Python papers had no charts.
 
+### 1.1 The instructor's checklist - Matplotlib bullets covered here
+
+> **Matplotlib** (practical-assessment checklist from the course instructor)
+> - creating simple plots such as scatter plots, line plots, bar charts and box plots
+> - adding appropriate titles and axis labels
+
+> -> scatter, line, bar: independent templates in **3.11**; box plots:
+> **3.12**; choosing the plot: **3.13**. Titles and both axis labels are in
+> EVERY template.
+
+The instructor's advice: do not memorise one complete solution; practise the
+*individual operations*. Sections 3.11-3.13 are small independent recipes.
+
+**CORRECTION to the "expected numbers" in template K:** the real
+`sales_data.csv` contains 6 exact duplicate rows (04/04/2022 to 10/04/2022
+appear twice). The official solution does not remove them in Task 1, and the
+numbers quoted in template K are with the duplicates left in. If you call
+`df.drop_duplicates()` first, the quantities become Biscuits 196,
+Chocolate 120, Orange Juice 232, Sweets 252, Unknown 33, Water 90 (the 2023
+monthly chart is unchanged: the duplicates are all in 2022).
+
 <div class="pb"></div>
 
 ## 2. Mental model (analogy)
@@ -294,6 +315,181 @@ plt.show()                                     # AFTER savefig, never before
 - With several figures, `plt.savefig` saves the *current* (latest) one; use
   `fig.savefig(...)` on a named figure (`fig = plt.figure()`).
 
+### 3.11 Scatter, line and bar: three independent minimal templates
+
+Each one stands alone (own data, own captions). Swap in your own lists or
+DataFrame columns.
+
+**Scatter - is there a relationship between two numbers?**
+
+```python
+hours = [1, 2, 3, 4, 5, 6, 7, 8]           # x: hours studied
+marks = [35, 42, 50, 55, 62, 70, 74, 85]   # y: mark achieved (same length!)
+plt.figure()
+plt.scatter(hours, marks, color='purple', s=60, alpha=0.7, marker='o')
+plt.title('Study Time vs Exam Mark')
+plt.xlabel('Hours studied')
+plt.ylabel('Exam mark')
+plt.show()
+```
+
+| Part | What it does |
+|---|---|
+| `scatter(x, y)` | one dot per (x, y) pair; no line joins them |
+| `color=` | dot colour (`'red'`, `'purple'`, `'#1f77b4'`) |
+| `s=60` | dot SIZE (area); bigger number = bigger dot |
+| `alpha=0.7` | transparency, 0 (invisible) to 1 (solid); helps when dots overlap |
+| `marker='o'` | dot shape (`'s'` square, `'^'` triangle, `'x'` cross) |
+| `label=` | name for `plt.legend()` when you draw several scatters |
+
+**Line - how does a value change over time/order?**
+
+```python
+months = [1, 2, 3, 4, 5, 6]
+sales = [210, 180, 225, 220, 205, 260]
+plt.figure()
+plt.plot(months, sales, color='darkgreen', marker='o',
+         linestyle='--', linewidth=2, label='Sales')
+plt.title('Monthly Sales')
+plt.xlabel('Month')
+plt.ylabel('Units sold')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+| Part | What it does |
+|---|---|
+| `plot(x, y)` | joins the points IN THE ORDER GIVEN (sort by time first) |
+| `marker='o'` | a dot at every data point |
+| `linestyle='--'` | `'-'` solid, `'--'` dashed, `':'` dotted |
+| `linewidth=2` | line thickness |
+| `label='Sales'` + `plt.legend()` | key box; no `legend()` call = no key |
+| `plt.grid(True)` | light grid to read values |
+
+**Bar - compare categories**
+
+```python
+products = ['Water', 'Sweets', 'Biscuits']
+totals = [720, 3915, 4060]
+plt.figure()
+plt.bar(products, totals, color='steelblue', width=0.6, edgecolor='black')
+plt.title('Total Sales per Product')
+plt.xlabel('Product')
+plt.ylabel('Total sales')
+plt.show()
+# horizontal: plt.barh(products, totals) - then xlabel is the number axis
+```
+
+| Part | What it does |
+|---|---|
+| `bar(names, heights)` | one bar per category; names on x, heights on y |
+| `color=` | one colour, or a list with one colour per bar |
+| `width=0.6` | bar width (default 0.8; smaller = bigger gaps) |
+| `edgecolor='black'` | outline, nice on printed paper |
+| `plt.barh(names, widths)` | horizontal bars: good for long names |
+| `yerr=` | error bars (one value per bar) |
+
+### 3.12 Box plots
+
+*Analogy:* a box plot is a **shrink-wrapped summary of a pile of numbers**.
+Line up all the values from smallest to largest, cut the row into four equal
+groups, and draw the middle two groups as a box. The line across the box is
+the middle person in the row (the median).
+
+**How to read one:**
+
+| Part | Meaning |
+|---|---|
+| line inside the box | **median** (50% of values lie below it) |
+| bottom / top of box | **Q1** (25th percentile) and **Q3** (75th percentile) |
+| box height | **IQR** = Q3 - Q1, the spread of the middle 50% |
+| whiskers | reach to the furthest value within 1.5 x IQR of the box |
+| separate dots beyond whiskers | **outliers** (unusually high/low values) |
+| tall box / long whiskers | values very spread out; short box = consistent |
+
+Rule of thumb: compare boxes by **median** (height of the line), **spread**
+(box height) and **outliers** (dots).
+
+```python
+class_a = [55, 60, 62, 65, 67, 70, 72, 75, 78, 95]
+class_b = [40, 48, 55, 58, 60, 62, 65, 70, 80, 85]
+class_c = [66, 68, 69, 70, 71, 72, 72, 73, 74, 75]
+
+plt.figure(figsize=(6, 4))
+plt.boxplot([class_a, class_b, class_c])      # a LIST of lists: one box each
+plt.xticks([1, 2, 3], ['Class A', 'Class B', 'Class C'])   # name the boxes
+plt.title('Exam Marks by Class')
+plt.xlabel('Class')
+plt.ylabel('Mark')
+plt.tight_layout()
+plt.show()
+# reading it: Class A has the highest median and ONE outlier (95);
+# Class B is the most spread out; Class C is very consistent (short box).
+```
+
+**Naming the boxes - version warning (tested on Matplotlib 3.11):**
+
+```text
+plt.boxplot(data, tick_labels=['A','B'])   # Matplotlib 3.9 and newer: works
+plt.boxplot(data, labels=['A','B'])        # OLD name. In 3.11 this gives
+   TypeError: boxplot() got an unexpected keyword argument 'labels'
+plt.boxplot(data, vert=False)              # old horizontal switch
+   warns it is deprecated; use orientation='horizontal'
+```
+
+The safe way that works in EVERY version: leave the keyword out and call
+`plt.xticks([1, 2, 3], [names])` after `plt.boxplot(..)`, as above. Boxes
+are numbered 1, 2, 3, ... (not 0).
+
+**Box plot straight from a DataFrame** (the long format of Lab5.docx Task 12:
+one column of groups, one of values)
+
+```python
+marks = pd.DataFrame({'Class': ['A'] * 10 + ['B'] * 10 + ['C'] * 10,
+                      'Mark': class_a + class_b + class_c})
+marks.boxplot(column='Mark', by='Class', grid=False, figsize=(6, 4))
+plt.suptitle('')                 # remove pandas' automatic extra title
+plt.title('Exam Marks by Class')
+plt.xlabel('Class')
+plt.ylabel('Mark')
+plt.show()
+
+# one box per COLUMN of a DataFrame:
+wide = pd.DataFrame({'Class A': class_a, 'Class B': class_b,
+                     'Class C': class_c})
+wide.plot(kind='box', title='Exam Marks by Class')
+plt.ylabel('Mark')
+plt.show()
+
+df = pd.read_csv('sales_data.csv')            # a single column: one box
+df['Total'].plot(kind='box', title='Total per sale')
+plt.ylabel('Total')
+plt.show()
+```
+
+- `column='Mark'` = the numbers to summarise; `by='Class'` = make one box
+  per distinct value of this column.
+- Boxes for the sales file look flat when split by Product, because every
+  product has one fixed price: that is the data, not a mistake.
+- Quartiles of the sales `Total` column: 50 / 100 / 135 (Q1 / median / Q3).
+
+### 3.13 Which plot for which question?
+
+| Question | Plot | Call |
+|---|---|---|
+| Are two numbers related? (hours vs mark) | **scatter** | `plt.scatter(x, y)` |
+| How does it change over time / order? (monthly sales) | **line** | `plt.plot(x, y)` |
+| How do categories compare? (total per product) | **bar** | `plt.bar(names, heights)` |
+| How are the values spread? (heights of 30 students) | **histogram** | `plt.hist(values, bins=..)` |
+| How do SEVERAL groups differ in spread, median and outliers? | **box plot** | `plt.boxplot([g1, g2, g3])` |
+| What share of a whole does each part take? | pie | `plt.pie(parts, labels=..)` |
+
+Clue words: "relationship / correlation / against" = scatter; "trend /
+over time / each month" = line; "compare / total per / for each" = bar;
+"distribution / frequency" = histogram; "spread / outliers / median per
+group" = box.
+
 <div class="pb"></div>
 
 ## 4. Line-by-line walkthrough (Task 1b)
@@ -379,6 +575,24 @@ where pandas draws the chart itself.
 - `plt.hist` ignores NaN silently, `plt.plot` leaves a gap - a chart
   that looks fine can still sit on blanks; clean first.
 
+### 5.1 Traps for sections 3.11-3.13
+
+| Mistake | What you see | Fix |
+|---|---|---|
+| `plt.boxplot(data, labels=[..])` | Matplotlib 3.11: `TypeError: boxplot() got an unexpected keyword argument 'labels'` | `tick_labels=` (3.9+) or `plt.xticks([1,2,3], [names])` |
+| `plt.boxplot(df['A'], df['B'])` | second argument is read as `notch`: `ValueError: truth value of a Series is ambiguous` | ONE list of datasets: `plt.boxplot([df['A'], df['B']])` |
+| `plt.boxplot(df)` on a table with text columns | `TypeError`/garbage | pick numeric columns: `df[['A','B']]` |
+| box plot of data containing NaN | that box silently disappears (median is NaN) | `df['A'].dropna()` first |
+| `df.boxplot(column='Mark', by='Class')` extra grey title "Boxplot grouped by Class" | untidy | `plt.suptitle('')` then your own `plt.title` |
+| xticks for boxes start at 0 | labels shifted by one | boxes sit at 1, 2, 3 |
+| `vert=False` | deprecated warning on Matplotlib 3.11 | `orientation='horizontal'` |
+| scatter with different-length lists | `ValueError: x and y must be the same size` | check `len(x) == len(y)` |
+| scatter with the points joined by a line wanted | `scatter` draws no lines | use `plt.plot(x, y, marker='o')` |
+| line chart looks zig-zag | data not in time order | sort by x before `plt.plot` |
+| `plt.legend()` shows nothing; warning "No artists with labels found" | forgot `label=` in the plot call | `plt.plot(..., label='A')` then `plt.legend()` |
+| bar `color=['red','blue']` with 5 bars | colours repeat | one colour per bar |
+| using a scatter to show "total per product" | meaningless dots | categories -> bar (table 3.13) |
+
 <div class="pb"></div>
 
 ## 6. Anticipated exam questions
@@ -436,6 +650,45 @@ plt.show()
 **Q10 (2) Why did you use `marker='o'`?** With few points (only 4 months)
 the dots show where the data really is; the line only joins them.
 
+### 6.1 Extra questions on the instructor's checklist
+
+**Q11 (2) Draw a scatter plot of hours studied against exam mark with a
+title and both axis labels.** Template 3.11 (scatter). `plt.scatter(hours,
+marks)`; title; `xlabel('Hours studied')`; `ylabel('Exam mark')`.
+
+**Q12 (3) Draw box plots comparing the marks of three classes. Label the
+boxes and axes.** Template 3.12:
+
+```python
+plt.figure()
+plt.boxplot([class_a, class_b, class_c])
+plt.xticks([1, 2, 3], ['Class A', 'Class B', 'Class C'])
+plt.title('Exam Marks by Class')
+plt.xlabel('Class')
+plt.ylabel('Mark')
+plt.show()
+```
+
+**Q13 (3) What does the box plot show and which class has the most
+consistent marks?** Median line, quartile box, whiskers, outlier dots.
+Class C: the shortest box (smallest IQR) = most consistent; Class A has an
+outlier (95).
+
+**Q14 (2) A box plot of heights shows one dot far above the whisker. What is
+it?** An outlier: a value beyond Q3 + 1.5 x IQR. (Check the data: a typo or a
+genuinely tall student?)
+
+**Q15 (2) Which chart type would you use for (a) monthly trend, (b)
+relationship between two numbers, (c) spread per group (d) totals per
+category? Say why.** line; scatter; box plot; bar (table 3.13).
+
+**Q16 (3) Draw a line chart of `months` and `sales` with a dashed line,
+circle markers, a legend and a grid.** Template 3.11 (line).
+
+**Q17 (3) Make a box plot of `Mark` for each `Class` straight from the
+DataFrame `marks`.** `marks.boxplot(column='Mark', by='Class')`, then
+`plt.suptitle('')`, title, labels, `plt.show()`.
+
 <div class="pb"></div>
 
 ## 7. Quick-reference box (hand-copy this)
@@ -460,4 +713,16 @@ MONTHS   d = df[df['Date'].dt.year==2023]
 LOSS     plt.plot(range(1, len(losses)+1), losses)  + title/Epoch/Loss labels
 HEIGHTS  title 'Height Distribution'  x 'Height (cm)'  y 'Frequency'
 TRAPS    plot(PeriodIndex) fails -> .astype(str) | groupby BEFORE bar
+--- instructor checklist additions ---
+SCATTER  plt.scatter(x, y, color=, s=size, alpha=, marker='o')  2 numbers/item
+LINE     plt.plot(x, y, marker='o', linestyle='--', linewidth=2, label='A')
+BAR      plt.bar(names, heights, color=, width=0.6, edgecolor='black')
+BOX      plt.boxplot([g1, g2, g3])   plt.xticks([1,2,3], ['A','B','C'])
+         NOT labels=  (gone in Matplotlib 3.11); tick_labels= = 3.9+ only
+         df.boxplot(column='V', by='G'); plt.suptitle('')
+         df.plot(kind='box')    boxes sit at 1,2,3...
+READ BOX line=median, box=Q1..Q3 (IQR), whiskers=1.5*IQR, dots=outliers
+WHICH    trend->line  relation->scatter  compare->bar  spread->hist
+         spread/outliers per group->box   parts of whole->pie
+EVERY plot: plt.title('..')  plt.xlabel('..')  plt.ylabel('..')
 ```
