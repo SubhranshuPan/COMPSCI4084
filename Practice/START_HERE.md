@@ -19,7 +19,7 @@ Your instructor says the practical assessment (15% of the course) covers the sam
 | last | Hand-write the quick-reference boxes; print the cheat sheet | `Exam_Day_Cheat_Sheet` (version 2) |
 
 ## What to print
-**Core (take into the exam):** `Exam_Day_Cheat_Sheet` v2 (4 pp) + `T9_Checklist_Operation_Cards` (17 pp). If you already printed v1 of T4, T5, T6, T7: reprint only the new pages listed in `CHANGELOG.md` (about 33 pp), or reprint the whole documents.
+**Core (take into the exam):** `Exam_Day_Cheat_Sheet` v2 (4 pp) + `T9_Checklist_Operation_Cards` (17 pp). If you already printed v1 of T4, T5, T6, T7: print the three ready-made files in `Exam_Prep_Pack/Print_New_Pages/` (only the new pages, 42 pp including the cheat sheet; page 1 replaces your old page 1, the rest goes behind your old copy). T2 and T3 did not change.
 **For study, not for the exam:** `00_Exam_Pattern_Analysis`, the three Mock papers (then the marking schemes afterwards).
 **Skip:** `T8_Tkinter_Legacy`, `P2-P4` (old GUI papers), `T1`/`T2` unless weak.
 **Also hand-write** one page of your own notes (allowed): copy the quick-reference box of each topic in your own words.
@@ -31,6 +31,7 @@ Practice/
   Solutions_py/                    <- all tested .py solutions + 27-card drills file
   Exam_Prep_Pack/
     CHANGELOG.md                   <- what changed in version 2, which pages to reprint
+    Print_New_Pages/               <- 3 small PDFs: ONLY the new pages to print (stamped)
     00_Exam_Pattern_Analysis.md    <- checklist map, exam patterns, study plan
     Exam_Day_Cheat_Sheet.md        <- v2, one tested script covering every checklist item
     Paper_Solutions/  P0 index, P1 2024, P2 2021, P3 2022, P4 2023

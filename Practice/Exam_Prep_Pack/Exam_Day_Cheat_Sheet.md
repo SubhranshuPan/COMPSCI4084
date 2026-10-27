@@ -1,4 +1,4 @@
-# EXAM-DAY CHEAT SHEET - Python (print this, ~5 pages)
+# EXAM-DAY CHEAT SHEET - Python (print this, 4 pages)
 
 *Version 2: now covers EVERY item on the instructor's practical-assessment checklist. The code blocks form ONE continuous, tested script (pandas -> merge -> charts -> SQLite -> CSV export -> PyTorch regression). Use each block as a set of INDEPENDENT operations: copy only the lines you need and change the names. Explanations: Topics/T1-T9 and Paper_Solutions/P1.*
 

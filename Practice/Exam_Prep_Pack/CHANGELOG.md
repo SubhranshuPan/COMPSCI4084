@@ -18,6 +18,13 @@ The instructor's checklist for the practical assessment names: pandas **merge**,
 | `Solutions_py/practical_operation_drills.py` | - | all 27 cards as runnable functions with PASS/FAIL |
 | `Solutions_py/pytorch_regression_practical.py` | - | the full regression program, heavily commented |
 
+## READY-MADE PRINT FILES for the new pages
+The folder `Print_New_Pages/` holds exactly the pages listed below as three small PDFs (42 pages in total), each page stamped top-right with its document and page:
+- `Print_1_SQLite_T4_new_pages.pdf` (10 pages)
+- `Print_2_Pandas_and_Matplotlib_T5_T6_new_pages.pdf` (18 pages)
+- `Print_3_CheatSheet_v2_and_PyTorch_T7_new_pages.pdf` (14 pages, includes the new cheat sheet)
+Page 1 of each document replaces your old page 1; the other new pages go BEHIND your old copy, in order. `T2` and `T3` did not change, so there is nothing new to print for them. Rebuild with `_tools/make_print_extracts.py`.
+
 ## Documents you can KEEP and just add pages to
 These only had material ADDED (plus two small corrections marked below). Reprint the pages shown and slot them in.
 
@@ -26,7 +33,7 @@ These only had material ADDED (plus two small corrections marked below). Reprint
 | `T4_SQLite` | 11 -> 18 | **1**, **10-18** | p1: instructor checklist box. p10: 12 new trap rows (UPDATE without WHERE, rowcount, NumPy values in WHERE, `LIKE`, export index column). p11: Q11-Q16. p12: extra quick-reference box and **new section 8**: 8.1 connect, 8.2 `to_sql`, 8.3 SELECT/WHERE/ORDER BY/LIMIT, 8.4 **UPDATE** (full worked), 8.5 `?` parameters, 8.6 commit, 8.7 **export to CSV (3 ways)**, 8.8 ten statements to know. |
 | `T5_Pandas_NumPy` | 10 -> 15 | **1**, **5-8**, **11-15** | p1: checklist box + **CORRECTION** (below). p5-8: new 3.11 shape, 3.12 duplicates, **3.13 merge**, 3.14 select/filter, 3.15 save to CSV. p11-15: traps 5.1, questions Q10-Q15, extra quick-reference lines. |
 | `T6_Matplotlib` | 11 -> 14 | **1**, **6-8**, **11-14** | p1: checklist box + **CORRECTION** (below). p6: 3.11 scatter/line/bar templates. p7: **3.12 box plots**. p8: 3.13 which plot for which question. p11-14: traps 5.1, questions Q11-Q17, extra quick-reference lines. |
-| `T7_PyTorch_Basics` | 11 -> 17 | **1**, **6-10**, **15-17** | p1: instructor checklist (1b). p6-10: **3.8 REGRESSION step by step** (seed + reproducibility proof, data and shapes, model, loss/optimiser/learning-rate table, loop, plot, evaluation + the single-Linear check that recovers `w` and `b`). p15-17: traps 5.11-5.16, questions Q11-Q17, extra quick-reference box. |
+| `T7_PyTorch_Basics` | 11 -> 17 | **1**, **6-11**, **15-17** | p1: instructor checklist (1b). p6-11: **3.8 REGRESSION step by step** (seed + reproducibility proof, data and shapes, model, loss/optimiser/learning-rate table, loop, plot, evaluation + the single-Linear check that recovers `w` and `b`). p15-17: traps 5.11-5.16, questions Q11-Q17, extra quick-reference box. |
 | `00_Exam_Pattern_Analysis` | 4 -> 5 | **1** (section 0), **3** (section 4), **5** (section 8) | new section 0 (checklist map); likelihood table re-weighted to the checklist; study plan changed to operations-first. |
 | `Paper_Solutions/P1_2024_Paper_Explained` | 12 -> 12 | **1** | one note at the top: the 2024 paper uses a sigmoid network; your assessment is regression; read P1 for understanding, do not memorise. |
 | `Mock_Exams/README_How_to_use_mocks` | 2 -> 3 | **2-3** | Mock C section appended. |
