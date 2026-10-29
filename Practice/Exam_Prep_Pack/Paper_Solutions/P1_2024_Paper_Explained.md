@@ -2,7 +2,7 @@
 
 *Sales data -> pandas -> matplotlib -> SQLite -> PyTorch. 40 marks. This is the paper your mock will most closely resemble. Full runnable file: `Solutions_py/2024_sales_sqlite_pytorch_solution.py`. Extra "what if the examiner changes it" drills: `Solutions_py/2024_twist_drills.py`.*
 
-> **Version 2 note (read first).** Your instructor's checklist for the practical assessment asks for a **regression** network (continuous target, `y = X @ w + b + noise`, Linear + ReLU, **no sigmoid**, seed set first) plus pandas merge, box plots, `UPDATE`, `to_sql` and exporting query results to CSV. The 2024 paper below uses a sigmoid network and none of those extras, so use P1 to **understand the pipeline and how marks are earned**, and use T9 / T4-T7 / the Cheat Sheet for the checklist operations. Do not try to memorise this solution: practise its operations one at a time.
+> **Version 2 note (read first).** Your instructor's checklist for the practical assessment asks for a **regression** network (continuous target, `y = X @ w + b + noise`, Linear + ReLU, **no sigmoid**, seed set first) plus pandas merge, box plots, `UPDATE`, `to_sql` and exporting query results to CSV. The instructor also says your test is "very similar to the 2024/25 paper", so be ready for **either** network (the sigmoid one below, or the regression one): do exactly what the paper specifies, the training loop is identical. The 2024 paper below has none of the checklist extras, so use P1 to **understand the pipeline and how marks are earned**, and use T9 / T4-T7 / the Cheat Sheet for the checklist operations. Do not try to memorise this solution: practise its operations one at a time.
 
 ## 1. The paper at a glance
 
@@ -14,7 +14,7 @@
 | 2b | Two queries: total 2023 sales; qty per product 2023, descending | 3 + 3 = 6 | `SUM`, `WHERE`, `GROUP BY`, `ORDER BY` |
 | 3a-3d | `SimpleNN` (10 -> 5 -> 3 -> 1), train 20 epochs, plot loss | 4 + 2 + 3 + 3 = 12 | `torch.nn`, training loop |
 
-**Time plan for a 2-hour sitting:** Task 1 = 35 min, Task 2 = 35 min, Task 3 = 30 min, final run-through + comments = 20 min.
+**Time plan:** the 2024 paper was longer; your mid-term test is **ONE HOUR** (see `Test_Day_Card_60_Minutes`): read 3 min, Task 1 about 19, Task 2 about 18, Task 3 about 12, assemble + clean run 4, upload by minute 56.
 
 **Submission:** ONE file called `your_name_python_task.py`. All three tasks in the same file, in order. The CSV is in the same folder as your script.
 

@@ -5,6 +5,9 @@ Everything is in `Practice/Exam_Prep_Pack/`. Printable PDFs are in `Exam_Prep_Pa
 ## Situation in one paragraph
 Your instructor says the practical assessment (15% of the course) covers the same areas as the final-exam Python question, and gave an explicit checklist: **pandas** (load, shape, duplicates, merge, filter, save to CSV), **matplotlib** (scatter, line, bar, box plots with titles and labels), **SQLite** (create/connect, store a DataFrame, SELECT/WHERE/ORDER BY/UPDATE, `?` parameters, commit, export results to CSV) and **PyTorch** (seed first, `nn.Module` with Linear + ReLU, synthetic data `y = X @ w + b + noise`, shapes of X and y, loss + optimiser, training loop, record and plot the loss). tkinter is gone. The instructor's advice: **practise the individual operations and understand each line; do not memorise one complete solution.** This pack is now organised around exactly that.
 
+## Test logistics (from the instructor's latest message) - read `Exam_Prep_Pack/Test_Day_Card_60_Minutes`
+The mid-term programming test is **ONE HOUR** (start attempt -> upload the `.py`), three tasks "very similar to the 2024/25 paper" (Task 3 = PyTorch), ONE file named `student_name_python_task.py`, late upload = two minor bands, Moodle + paper notes only, **no Copilot/AI tools**, notebooks must be exported as an executable script. Set up PyTorch **before** clicking "Start attempt". **Print the Test Day Card (2 pages) and keep it on the desk.**
+
 ## How to start (in this order)
 
 | Step | Do this | File |
@@ -19,7 +22,7 @@ Your instructor says the practical assessment (15% of the course) covers the sam
 | last | Hand-write the quick-reference boxes; print the cheat sheet | `Exam_Day_Cheat_Sheet` (version 2) |
 
 ## What to print
-**Core (take into the exam):** `Exam_Day_Cheat_Sheet` v2 (4 pp) + `T9_Checklist_Operation_Cards` (17 pp). If you already printed v1 of T4, T5, T6, T7: print the three ready-made files in `Exam_Prep_Pack/Print_New_Pages/` (only the new pages, 42 pp including the cheat sheet; page 1 replaces your old page 1, the rest goes behind your old copy). T2 and T3 did not change.
+**Core (take into the exam):** `Test_Day_Card_60_Minutes` (2 pp) + `Exam_Day_Cheat_Sheet` v2 (4 pp) + `T9_Checklist_Operation_Cards` (17 pp). If you already printed v1 of T4, T5, T6, T7: print the three ready-made files in `Exam_Prep_Pack/Print_New_Pages/` (only the new pages, 42 pp including the cheat sheet; page 1 replaces your old page 1, the rest goes behind your old copy). T2 and T3 did not change.
 **For study, not for the exam:** `00_Exam_Pattern_Analysis`, the three Mock papers (then the marking schemes afterwards).
 **Skip:** `T8_Tkinter_Legacy`, `P2-P4` (old GUI papers), `T1`/`T2` unless weak.
 **Also hand-write** one page of your own notes (allowed): copy the quick-reference box of each topic in your own words.

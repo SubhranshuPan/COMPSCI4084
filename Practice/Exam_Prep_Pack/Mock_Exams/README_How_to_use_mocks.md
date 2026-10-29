@@ -31,15 +31,19 @@ Mock A mirrors the 2024 paper (3 tasks, 40 marks). Mock B mirrors the
 5. Allowed: your printed notes, the topic documents, past papers.
    Not allowed: the solution file, the web, other people.
 
-## Time budget (2 hours = 120 minutes)
+## Time budget (the real mid-term test is 1 hour = 60 minutes)
 
 | Block | Mock A | Mock B |
 |-------|--------|--------|
-| Read the whole paper | 5 | 5 |
-| Task 1 | 40 | 35 |
-| Task 2 | 35 | 30 |
-| Task 3 | 30 | 35 |
-| Final run, tidy, comments, rename, "upload" | 10 | 15 |
+| Read the whole paper | 3 | 3 |
+| Task 1 | 20 | 18 |
+| Task 2 | 17 | 14 |
+| Task 3 | 14 | 17 |
+| Final run, comments, file name, "upload" | 6 | 8 |
+
+These two mocks were written longer than the real test; if you cannot finish
+in 60 minutes, that is normal - note which parts you left, and finish them
+untimed afterwards. (Your first timed attempt is for finding your pace.)
 
 If a block is over time by 5 minutes, **stop, leave a comment
 `# TODO: not finished`, and move on**. Partial code earns partial marks;
@@ -107,8 +111,8 @@ regression (seed, `y = X @ w + b + noise`, Linear + ReLU, loss curve).
 
 - **Setup:** as for A and B: a fresh folder, copy only the two CSV files,
   needs `pandas`, `matplotlib`, `torch`.
-- **Time (120 min):** read 5, Section 1 pandas 30, Section 2 plots 20,
-  Section 3 SQLite 30, Section 4 PyTorch 25, final run and tidy 10.
+- **Time (60 min, like the real test):** read 3, Section 1 pandas 12, Section 2 plots 8,
+  Section 3 SQLite 15, Section 4 PyTorch 14, final run and tidy 8.
 - **Marking:** the scheme gives each small operation its own mark, so
   mark line by line. Then use its first table (checklist bullet ->
   topic document) to see which topic document to re-read for each lost

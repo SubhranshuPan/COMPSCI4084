@@ -30,7 +30,7 @@ Your instructor says the practical assessment (15% of the course) covers *the sa
 | PyTorch | training loop; record and plot the loss | T7, P1, Cheat Sheet F |
 
 **What this changes (compared with version 1 of this pack):**
-1. The PyTorch task is a **regression** task (continuous target, `MSELoss`, **no sigmoid** on the output). The 2024 paper's sigmoid network is still good practice but is not the template to expect.
+1. The PyTorch task may be **regression** (continuous target `y = X @ w + b + noise`, `MSELoss`, **no sigmoid** on the output) as the checklist says, or the **2024 sigmoid network** (the instructor also says the test is "very similar to the 2024/25 paper"). Prepare both: the training loop is identical; only the layers, the output activation and how the data is made differ. Do exactly what the paper specifies.
 2. **Merge, box plot, UPDATE, `to_sql` and CSV export** are now explicitly on the list; they were thin or missing before.
 3. Practise **small operations**, each from a blank line. Do not rely on retyping a whole paper solution.
 4. The seed goes **before** the data *and before* the model is built (weights are random too).
@@ -144,17 +144,18 @@ Database-related marks (create + save + query/display): **7/24, 18/24, 14/24, 15
 | Missing `zero_grad()` | gradients accumulate silently | five-step loop chant |
 | Not testing the full file at the end | crash on line 140 | run top-to-bottom before upload |
 
-## 7. Time budget for a 2-hour mock (adjust to the real length)
+## 7. Time budget: the mid-term test is ONE HOUR (details: `Test_Day_Card_60_Minutes`)
 
-| Minutes | Do |
+| Minute | Do |
 |---|---|
-| 0-5 | read paper, list exact names, look at the data |
-| 5-40 | Task 1 (pandas, cleaning, charts) - run it |
-| 40-80 | Task 2 (SQLite) - run it, run it twice to test duplicates |
-| 80-105 | Task 3 (network / CSV logger) - run it |
-| 105-120 | clean comments, rerun from scratch, filename, submit |
+| 0-3 | read paper, list exact names, look at the data |
+| 3-22 | Task 1 (pandas, cleaning, merge, plots) - run it |
+| 22-40 | Task 2 (SQLite) - run it, run it twice to test duplicates |
+| 40-52 | Task 3 (PyTorch) - run it |
+| 52-56 | assemble one file, clean run, correct file name |
+| **by 56** | **upload** (late penalty: two minor bands) |
 
-If a task is stuck for 10 minutes, write a comment saying what you would do, leave a stub that runs, and **move on**. Come back with spare time.
+If a task is stuck for 5 minutes, write a comment saying what you would do, leave a stub that runs, and **move on**. (Other rules from the instructor: single `.py` named `student_name_python_task.py`; notebooks must be exported as an executable script; Moodle + paper notes only; no Copilot/AI tools; PyTorch task can be pasted in from Jupyter.)
 
 ## 8. Your study plan (version 2: operations first, then whole programs)
 

@@ -1,7 +1,7 @@
 # Programming and Systems Development
 ## Mock Lab Exam B - Python Part (40 marks)
 
-**Time allowed for this mock: 2 hours.**  Open book: you may use your
+**Time allowed for this mock: 1 hour (the same as the real mid-term test).**  Open book: you may use your
 printed notes and practice materials. No communication with other
 candidates. No Tkinter/GUI is needed. This paper uses pandas, numpy,
 matplotlib and sqlite3 only (no PyTorch).

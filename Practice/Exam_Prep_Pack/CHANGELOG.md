@@ -2,7 +2,13 @@
 
 *Version 1 PDFs were printed before the instructor's checklist arrived. This list says exactly what changed so you can reprint only what you need. Page numbers refer to the NEW PDFs in `PDF_Print/`.*
 
-## Why it changed
+## Update 2 - after the instructor's test-logistics message
+- **New:** `Test_Day_Card_60_Minutes` (print, 2 pages): the instructor's rules, a 60-minute plan, the two ways to produce the single `.py` (all-in-Jupyter vs paste Task 3), a file skeleton, a last-4-minutes checklist.
+- **Changed (study material, no need to reprint):** the mid-term test is **1 hour**, not 2: `00_Exam_Pattern_Analysis` section 7, the time lines in Mock A/B/C papers and `README_How_to_use_mocks`, and the time plan at the top of `P1`. P1's note and the pattern analysis now say the PyTorch task may be the **2024 sigmoid network or the regression one**; prepare both, follow the paper exactly.
+- **File name:** the real format is `student_name_python_task.py` (e.g. `mary_ellen_foster_python_task.py`); older documents say `your_name_python_task.py`, which means the same.
+- **Unchanged:** the cheat sheet, T4-T7 and T9 are still correct; the `Print_New_Pages/` files stay valid.
+
+## Why it changed (update 1)
 The instructor's checklist for the practical assessment names: pandas **merge**, **duplicates**, **shape**, **save to CSV**; matplotlib **box plots**; SQLite **`to_sql`**, **UPDATE**, **export results to CSV**; PyTorch **seed**, **`y = X @ w + b + noise`**, **shapes**, regression with Linear + ReLU. Version 1 covered some of these thinly and some not at all, and advised retyping a whole solution, which contradicts the instructor's "practise the individual operations".
 
 ## Documents you must REPLACE (reprint fully)
